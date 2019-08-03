@@ -1,0 +1,55 @@
+<div class="jumbotron text-center">
+    <form  ng-submit="submitDistributorToRetailer()">
+            <div>
+                    <div>
+                        <label>Product Name:</label>
+                            <select ng-model="productName" ng-options="product for product in productNames">
+                                    <option value="">Select</option>
+                            </select>       
+                    </div>   
+                    <div> 
+                        <label>Distributor Shipping Location:</label>
+                                <select ng-model="distributorShippingLocation" ng-options="location for location in shippingLocations">
+                                    <option value="">Select</option>
+                                </select>       
+                    </div> 
+                    <div>
+                        <label>Retailer Shipping Location:</label>
+                                <select ng-model="retailerShippingLocation" ng-options="location for location in shippingLocations">
+                                    <option value="">Select</option>
+                                </select>       
+                    </div>
+                    <div>
+                        <label>Quantity:</label>
+                            <input type="number" ng-model="quantity" >
+                            </select>       
+                    </div>
+                    <div>
+                            <label>Sale Price To Distributor:</label>
+                                <input type="number" ng-model="salePriceToRetailrer" >
+                            </select>       
+                    </div>
+                    <div>
+                            <label>Additional Information:</label>
+                                <input type="textarea" ng-model="additionalInfo" >
+                            </select>       
+                    </div>
+                    <div>
+                            <label>Retailer Address:</label>
+                                    <select ng-model="retailerAddress" ng-options="address for address in retailerAddresses">
+                                            <option value="">Select</option>
+                                    </select>       
+                    </div>
+                    <div>
+                        <input type="submit" >
+                    </div>    
+                </div>
+                <div>
+                    {{messge}}
+                </div>
+    
+    </form>
+
+        
+    </div>
+     

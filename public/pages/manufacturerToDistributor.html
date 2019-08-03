@@ -1,0 +1,47 @@
+
+<form   ng-submit="submitManufacturerToDistributor()">
+<div class="jumbotron text-center">
+    <div>
+        <div>
+            <label>Product Name:</label>
+                <select ng-model="productName" ng-options="product for product in productNames">
+                        <option value="">Select</option>
+                </select>       
+        </div>   
+        <div>
+            <label>Manufacturer Shipping Location:</label>
+                    <select ng-model="shippingLocation" ng-options="location for location in shippingLocations">
+                        <option value="">Select</option>
+                    </select>       
+        </div>
+        <div>
+            <label>Quantity:</label>
+                <input type="number" ng-model="quantity" >
+                </select>       
+        </div>
+        <div>
+                <label>Sale Price To Distributor:</label>
+                    <input type="number" ng-model="salePriceToDistributor" >
+                </select>       
+        </div>
+        <div>
+                <label>Additional Information:</label>
+                    <input type="textarea" ng-model="additionalInfo" >
+                </select>       
+        </div>
+        <div>
+                <label>Distributor Address:</label>
+                        <select ng-model="distributorAddress" ng-options="address for address in distributorAddresses">
+                                <option value="">Select</option>
+                        </select>       
+        </div>
+        <div>
+            <input type="submit" >
+        </div>    
+    </div>
+    <div>
+        {{messge}}
+    </div>
+    
+</div>
+</form>

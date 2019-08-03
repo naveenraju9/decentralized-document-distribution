@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html ng-app="mobileManufacturerApp">
+<head>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+  <script src="app.js"></script>
+</head>
+<body >
+    <header>
+        <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Mobile Manufacturer</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#!manufacturerToDistributor">manufacturer to Distributor</a></li>
+                <li><a href="#!distributorToRetailer"> distributor to Retailer</a></li>
+                <li><a href="#!consumer"> consumer</a></li>
+                
+            </ul>
+        </div>
+        </nav>
+    </header>
+
+    <div id="main">
+            <div ng-view></div>
+    </div>
+
+</body>
+</html>
