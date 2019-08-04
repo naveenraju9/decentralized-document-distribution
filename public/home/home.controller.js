@@ -70,7 +70,6 @@
 
         function initController() {
             $scope.userDetails = $location.search().data;
-            $scope.role = parseInt($scope.userDetails.role);
             //loadCurrentUser();
         }
 
@@ -94,33 +93,5 @@
                 }
             });
          };
-
-         function createPurpose() {
-            var purpose = $scope.purpose;
-            var userAddress = $scope.userDetails.address;
-            vm.dataLoading = true;
-            console.log("purpose>>>", purpose, userAddress)
-            UserService.createPurpose(userAddress, purpose).then((res)=>{
-                console.log("res>>>", res);
-                vm.dataLoading = false;
-            })
-            
-        }
-        $scope.purposeList = [
-            {
-                "name" : "Create new Bank account",
-                "code" : "CA"
-            },
-            {
-                "name" : "HDFC Click2 invesment",
-                "code" : "HDFCC2"
-            },
-            {
-                "name" : "MaxLife Term insurance",
-                "code" : "MLTI"
-            }
-        ];
-
-
     }
 })();
