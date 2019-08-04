@@ -1,151 +1,61 @@
-var module = angular.module('mobileManufacturerApp', ['ngRoute']);
+﻿(function () {
+    'use strict';
 
-module.config(function($routeProvider) {
-    $routeProvider
-        .when('/manufacturerToDistributor', {
-            templateUrl : 'pages/manufacturerToDistributor.html',
-            controller  : 'manufacturerToDistributorController'
-        })
-        .when('/distributorToRetailer', {
-            templateUrl : 'pages/distributorToRetailer.html',
-            controller  : 'distributorToRetailerController'
-        })
-        .when('/consumer', {
-            templateUrl: 'pages/consumer.html',
-            controller: 'consumerController'
-        })
-        ;
-});
+    angular
+        .module('app', ['ngRoute', 'ngCookies'])
+        .config(config)
+        .run(run);
 
-module.controller('manufacturerToDistributorController', function($scope, $http) {
+    config.$inject = ['$routeProvider', '$locationProvider'];
+    function config($routeProvider, $locationProvider) {
+        $routeProvider
+            .when('/', {
+                controller: 'HomeController',
+                templateUrl: 'home/home.view.html',
+                controllerAs: 'vm'
+            })
 
-    //TODO : move the common reusable things to service to avoid boilerplate code
-    $scope.productNames = [
-       'Motorola', 'honor', 'Apple'
-    ];
+            .when('/login', {
+                controller: 'LoginController',
+                templateUrl: 'login/login.view.html',
+                controllerAs: 'vm'
+            })
 
-    $scope.shippingLocations = [
-        'Bangalore', 'Hyderabad'
-    ];
+            .when('/register', {
+                controller: 'RegisterController',
+                templateUrl: 'register/register.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/uploadDocuments', {
+                controller: 'UploadDocumentsController',
+                templateUrl: 'documents/documentsupload.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/recomenderHome', {
+                controller: 'RecomenderHomeController',
+                templateUrl: 'home/recomender.home.view.html',
+                controllerAs: 'vm'
+            })
 
-    $scope.distributorAddresses = [];
-
-    $http.get("http://localhost:3000/getDistributorAddress").then(function(distributorAddresses){
-        if (angular.isDefined(distributorAddresses)) {
-            $scope.distributorAddresses = distributorAddresses.data;
-        }
-    });
-
-    $http.get("http://localhost:3000/initializeManufacturerToDistributorContract").then(function(response){
-        console.log(response)
-    });
-
-    $scope.submitManufacturerToDistributor = function() {
-        var requestPayload = {
-            productName : $scope.productName,
-            shippingLocation : $scope.shippingLocation,
-            quantity : $scope.quantity,
-            salePriceToDistributor : $scope.salePriceToDistributor,
-            additionalInfo : $scope.additionalInfo,
-            distributorAddress: $scope.distributorAddress
-        };
-
-        $scope.messge = "Please wait your transaction is processing";
-
-        $http.post('http://localhost:3000/submitManufacturerToDistributorProduct', requestPayload).then(function(response){
-            console.log("response>>>", response)
-            if (response) {
-                $scope.messge = response.data;
-                resetValues();
-            }
-        })
-        console.log("inside submitManufacturerToDistributor")
-    };
-
-    function resetValues() {
-        $scope.productName = '';
-        $scope.shippingLocation = '';
-        $scope.quantity ='';
-        $scope.salePriceToDistributor = '';
-        $scope.additionalInfo = '';
-        $scope.distributorAddress = ''
+            .otherwise({ redirectTo: '/login' });
     }
-});
 
-module.controller('distributorToRetailerController', function($scope, $http) {
-
-    //TODO : move the common reusable things to service to avoid boilerplate code
-    $scope.productNames = [
-        'Motorola', 'honor', 'Apple'
-     ];
- 
-     $scope.shippingLocations = [
-         'Bangalore', 'Hyderabad'
-     ];
- 
-     $scope.distributorAddresses = [];
- 
-     $http.get("http://localhost:3000/getRetailerAddresses").then(function(retailerAddresses){
-         if (angular.isDefined(retailerAddresses)) {
-             $scope.retailerAddresses = retailerAddresses.data;
-         }
-     });
-
-     $http.get("http://localhost:3000/initializedistributorToRetailerContract").then(function(response){
-        if (angular.isDefined(response)) {
-            console.log(response.data)
+    run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
+    function run($rootScope, $location, $cookies, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookies.getObject('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
         }
-    });
- 
-     $scope.submitDistributorToRetailer = function() {
-         var requestPayload = {
-             productName : $scope.productName,
-             distributorShippingLocation : $scope.distributorShippingLocation,
-             retailerShippingLocation: $scope.retailerShippingLocation,
-             quantity : $scope.quantity,
-             salePriceToRetailrer : $scope.salePriceToRetailrer,
-             additionalInfo : $scope.additionalInfo,
-             retailerAddress: $scope.retailerAddress
-         };
- 
-         $scope.messge = "Please wait your transaction is processing";
- 
-         $http.post('http://localhost:3000/submitDistributorToRetailerProduct', requestPayload).then(function(response){
-             if (response) {
-                 $scope.messge = response.data;
-                 resetValues();
-             }
-         })
-     };
- 
-     function resetValues() {
-         $scope.productName = '';
-         $scope.distributorShippingLocation = '';
-         $scope.retailerShippingLocation = '';
-         $scope.quantity ='';
-         $scope.salePriceToRetailrer = '';
-         $scope.additionalInfo = '';
-         $scope.retailerAddress = ''
-     }
-});
 
-module.controller('consumerController', function($scope, $http) {
-    $scope.productNames = [
-        'Motorola', 'honor', 'Apple'
-     ];
-     $scope.productsInfo = [];
-    $http.get("http://localhost:3000/initializeConsumerContract").then(function(response){
-        if (angular.isDefined(response)) {
-            console.log(response.data)
-        }
-    });   
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/', '/uploadDocuments']) === -1;
+            var loggedIn = $rootScope.globals.currentUser;
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
+        });
+    }
 
-     $scope.getProductsInformation = function(){
-         var productName = $scope.productName;
-        
-         $http.get('http://localhost:3000/getProductInformation', {params: {productName: productName}}
-         ).then(function(productsInfo){
-            $scope.productsInfo = productsInfo.data;
-         });
-     }
-});
+})();

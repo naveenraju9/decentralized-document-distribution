@@ -1,27 +1,40 @@
 
-const Web3 = require('../ethereum/createWeb3');
+const Web3 = require('./createWeb3');
 const web3 = Web3.getWeb3Instance();
 
-//const manufacturerToDistributor = require('../ethereum/build/ManufacturerToDistributor.json');
-//const distributorToRetailer = require('../ethereum/build/DistributorToRetailer.json');
+const documentStore = require('../ethereum/build/DocumentStore.json')
+const userContract = require('../ethereum/build/User.json');
 
-const mobileManufacturerFactory = require('../ethereum/build/MobileManufacturerFactory.json')
+let contractOwnerAddress = null;
+let userContractOwnerAddress = null;
+let accounts = [];
 
-const deployContracts = async () => {
-    const accounts = await web3.eth.getAccounts();
+module.exports = {
+    deployContract : async() => {
+         accounts = await web3.eth.getAccounts();
+         contractOwnerAddress = accounts[0];
+        
+         const documentStoreResult = await new web3.eth.Contract(JSON.parse(documentStore.interface))
+         .deploy({data : documentStore.bytecode})
+         .send({gas : '3000000', from : contractOwnerAddress}); // need to implement get the gas dynamically
+         return documentStoreResult;
+    },
 
-     const mobileManufacturerResult = await new web3.eth.Contract(JSON.parse(mobileManufacturerFactory.interface))
-     .deploy({data : mobileManufacturerFactory.bytecode})
-     .send({gas : '3000000', from : accounts[0]});
+    getContrcatOwnerAddress : function() {
+        return contractOwnerAddress;
+    },
 
-    // const distributorToRetailerResult = await new web3.eth.Contract(JSON.parse(distributorToRetailer.interface))
-    // .deploy({data : distributorToRetailer.bytecode})
-    // .send({gas : '1000000', from : accounts[1]});
+    deployUserContract: async() => {
+         accounts = await web3.eth.getAccounts();
+         userContractOwnerAddress = accounts[0];
+        
+         const userContractResult = await new web3.eth.Contract(JSON.parse(userContract.interface))
+         .deploy({data : userContract.bytecode})
+         .send({gas : '3000000', from : userContractOwnerAddress}); // need to implement get the gas dynamically
+         return userContractResult; 
+    },
 
-    // console.log("manufacturer contract deployed to ", manufacturerToDistributorResult.options.address);
-
-     console.log("mobile manufacturer contract deployed to ", mobileManufacturerResult.options.address);
-
+    getUserContractOwnerAddress: async() => {
+        return userContractOwnerAddress;
+    }
 }
-
-deployContracts()

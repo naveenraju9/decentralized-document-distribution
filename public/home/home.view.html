@@ -1,0 +1,79 @@
+﻿﻿<style>
+    .div-table {
+        display: table;         
+        width: auto;         
+        background-color: #eee;         
+        border: 1px solid #666666;         
+        border-spacing: 5px; /* cellspacing:poor IE support for  this */
+        }
+        .div-table-row {
+        display: table-row;
+        width: auto;
+        clear: both;
+        }
+        .div-table-col {
+        float: left; /* fix for  buggy browsers */
+        display: table-column;         
+        width: 200px;         
+        background-color: #ccc;  
+        }
+</style>  
+
+<h1>Hi {{userDetails.name}}!</h1>
+<p>You're logged in!!</p>
+
+<div>
+    email : {{userDetails.email}}
+    address : {{userDetails.address}}
+</div>
+
+<div class="div-table" ng-if="role ===  0">
+    <div class="div-table-row">
+       <div class="div-table-col" align="center">Document Type</div>
+       <div class="div-table-col"></div>
+    </div>
+    <div class="div-table-row">
+        <div class="form-group div-table-col" ng-class="{ 'has-error': form.document.$dirty && form.document.$error.required }">
+            <label for="document">Document Type</label>
+            <select ng-model="document" ng-options="document.code as document.name for document in documents">
+               <option value="" selected >Select</option>
+            </select>
+                
+            <span ng-show="form.document.$dirty && form.document.$error.required" class="help-block">Select the document type</span>
+        </div>
+        <div class="div-table-col">
+            <div class="div-table-col"><input type = "file" file-model = "myFile"/>
+            <button ng-click = "uploadFile()">Upload File</button></div>
+       </div>
+
+    </div>
+  
+    
+</div>
+
+<div class="col-md-6 col-md-offset-3" ng-if="role === 1">
+    
+    <div ng-init="page='createPurpose'"></div>
+        <div class="div-table-row">
+            <div class="form-group" ng-class="{ 'has-error': form.passcode.$dirty && form.passcode.$error.required }">
+                <label for="purpose">Purpose</label>
+                <select ng-model="purpose" ng-options="purpose.code as purpose.name for purpose in purposeList">
+                <option value="" selected >Select</option>
+                </select>
+                    
+                <span ng-show="form.purpose.$dirty && form.purpose.$error.required" class="help-block">Purpose is required</span>
+        </div>
+        <div class="form-actions">
+                <button ng-click="createPurpose()" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Create</button>
+                <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                
+        </div>
+    </div>
+    
+   
+    
+   
+</div>
+
+<p>&nbsp;</p>
+<p><a href="#!/login" class="btn btn-primary">Logout</a></p>

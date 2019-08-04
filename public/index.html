@@ -1,34 +1,39 @@
-
-<!DOCTYPE html>
-<html ng-app="mobileManufacturerApp">
+﻿<!DOCTYPE html>
+<html ng-app="app">
 <head>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
-  <script src="app.js"></script>
+    <meta charset="utf-8" />
+    <title>AngularJS User Registration and Login Example</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link href="app-content/app.css" rel="stylesheet" />
 </head>
-<body >
-    <header>
-        <nav class="navbar navbar-default">
+<body>
+    <div class="jumbotron">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">Mobile Manufacturer</a>
+            <div class="col-sm-8 col-sm-offset-2">
+                <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+                <div ng-view></div>
             </div>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#!manufacturerToDistributor">manufacturer to Distributor</a></li>
-                <li><a href="#!distributorToRetailer"> distributor to Retailer</a></li>
-                <li><a href="#!consumer"> consumer</a></li>
-                
-            </ul>
         </div>
-        </nav>
-    </header>
-
-    <div id="main">
-            <div ng-view></div>
     </div>
 
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//code.angularjs.org/1.6.0/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.6.0/angular-route.min.js"></script>
+    <script src="//code.angularjs.org/1.6.0/angular-cookies.min.js"></script>
+
+    <script src="app.js"></script>
+    <script src="app-services/authentication.service.js"></script>
+    <script src="app-services/flash.service.js"></script>
+
+    <!-- Real user service that uses an api -->
+    <script src="app-services/user.service.js"></script>
+
+    <!-- Fake user service for demo that uses local storage -->
+    <!--<script src="app-services/user.service.local-storage.js"></script>-->
+
+    <script src="home/home.controller.js"></script>
+    <script src="login/login.controller.js"></script>
+    <script src="register/register.controller.js"></script>
+    <script src="documents/documentsupload.controller.js"></script>
 </body>
 </html>

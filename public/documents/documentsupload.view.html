@@ -1,0 +1,49 @@
+<style>
+    .div-table {
+        display: table;         
+        width: auto;         
+        background-color: #eee;         
+        border: 1px solid #666666;         
+        border-spacing: 5px; /* cellspacing:poor IE support for  this */
+        }
+        .div-table-row {
+        display: table-row;
+        width: auto;
+        clear: both;
+        }
+        .div-table-col {
+        float: left; /* fix for  buggy browsers */
+        display: table-column;         
+        width: 200px;         
+        background-color: #ccc;  
+        }
+</style>    
+<div>
+    Name : {{userInfo.message.email}}
+    Email : {{userInfo.message.email}}
+    Address : {{userInfo.message.address}}
+    Purpose : {{documents.name}}
+</div>
+<p>Upload Documents</p>
+
+<div class="div-table">
+    <div class="div-table-row">
+       <div class="div-table-col" align="center">Document</div>
+       <div  class="div-table-col"></div>
+    </div>
+   <div class="div-table-row" ng-repeat="document in documents.documents">
+        <div class="div-table-col">{{document.name}}</div>
+        <div style="display: inline;" ng-if="!isDocumentAvailable(document.code)">
+            <div class="div-table-col"><input type = "file" file-model-data = "myFile1"/><button ng-click = "uploadFile(document.code)">Upload File</button></div>      
+        </div>
+
+        <div style="display: inline;" ng-if="isDocumentAvailable(document.code)">
+            <div class="div-table-col">{{document.name}}</div>      
+        </div>
+        
+        
+   </div>
+    
+</div>
+<p>&nbsp;</p>
+<p><a href="#!/login" class="btn btn-primary">Logout</a></p>
